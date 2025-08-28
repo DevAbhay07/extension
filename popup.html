@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            width: 450px;
+            min-height: 600px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .container {
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        
+        .api-section {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .api-section h3 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .api-input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 12px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+        }
+        
+        .api-input::placeholder {
+            color: #666;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-primary {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #45a049;
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            margin-bottom: 15px;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .api-help {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-top: 8px;
+        }
+        
+        .api-help a {
+            color: #FFE082;
+            text-decoration: none;
+        }
+        
+        .tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 10px 8px;
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 7px;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        
+        .tab.active {
+            background: rgba(255, 255, 255, 0.25);
+            font-weight: 600;
+        }
+        
+        .content {
+            display: none;
+        }
+        
+        .content.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 18px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+        }
+        
+        textarea.form-input {
+            min-height: 100px;
+            resize: vertical;
+            font-family: inherit;
+        }
+        
+        select.form-input {
+            cursor: pointer;
+        }
+        
+        .file-info {
+            font-size: 11px;
+            opacity: 0.8;
+            margin-top: 6px;
+        }
+        
+        .message {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            display: none;
+        }
+        
+        .message.success {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid rgba(76, 175, 80, 0.4);
+            color: #E8F5E8;
+        }
+        
+        .message.error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid rgba(244, 67, 54, 0.4);
+            color: #FFEBEE;
+        }
+        
+        .message.show {
+            display: block;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 30px;
+            display: none;
+        }
+        
+        .loading.show {
+            display: block;
+        }
+        
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .result {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .result.show {
+            display: block;
+        }
+        
+        .result h3 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .result-text {
+            line-height: 1.6;
+            font-size: 14px;
+            max-height: 200px;
+            overflow-y: auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 AI Summarizer</h1>
+            <p>Powered by Google Gemini</p>
+        </div>
+        
+        <div id="api-section" class="api-section">
+            <h3>🔑 API Key Setup</h3>
+            <input type="text" id="api-key-input" class="api-input" placeholder="Enter your Google Gemini API key">
+            <button id="save-api-key" class="btn btn-primary">Save API Key</button>
+            <div class="api-help">
+                Get your free key from: <a href="https://makersuite.google.com/app/apikey" target="_blank">Google AI Studio</a>
+            </div>
+        </div>
+        
+        <div id="message" class="message"></div>
+        
+        <div id="main-content" class="hidden">
+            <div class="tabs">
+                <button class="tab active" data-tab="text">✏️ Text</button>
+                <button class="tab" data-tab="selected">🖱️ Selected</button>
+            </div>
+            
+            <!-- Text Tab -->
+            <div id="text-content" class="content active">
+                <div class="form-group">
+                    <label for="text-input">Enter text to summarize:</label>
+                    <textarea id="text-input" class="form-input" placeholder="Paste your text here..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="compression-text">Summary length:</label>
+                    <select id="compression-text" class="form-input">
+                        <option value="brief">Brief (25%)</option>
+                        <option value="regular" selected>Regular (50%)</option>
+                        <option value="detailed">Detailed (75%)</option>
+                    </select>
+                </div>
+                
+                <button id="summarize-text" class="btn btn-primary">🚀 Summarize Text</button>
+            </div>
+            
+            
+            <!-- Selected Tab -->
+            <div id="selected-content" class="content">
+                <button id="get-selected" class="btn btn-secondary">📋 Get Selected Text</button>
+                
+                <div class="form-group">
+                    <label for="selected-text">Selected text:</label>
+                    <textarea id="selected-text" class="form-input" placeholder="Click 'Get Selected Text' to capture text from the webpage" readonly></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="compression-selected">Summary length:</label>
+                    <select id="compression-selected" class="form-input">
+                        <option value="brief">Brief (25%)</option>
+                        <option value="regular" selected>Regular (50%)</option>
+                        <option value="detailed">Detailed (75%)</option>
+                    </select>
+                </div>
+                
+                <button id="summarize-selected" class="btn btn-primary">🚀 Summarize Selected</button>
+            </div>
+            
+            <div id="loading" class="loading">
+                <div class="spinner"></div>
+                <p>Processing with AI...</p>
+            </div>
+            
+            <div id="result" class="result">
+                <h3>📝 Summary</h3>
+                <div id="result-text" class="result-text"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="popup.js"></script>
+</body>
+</html>
