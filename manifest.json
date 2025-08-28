@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "AI Document Summarizer",
+  "name": "RE-Ease",
   "version": "1.0",
   "description": "Summarize documents and text using Google Gemini AI",
   "permissions": [
@@ -14,7 +14,7 @@
   ],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "AI Document Summarizer"
+    "default_title": "RE-Ease"
   },
   "background": {
     "service_worker": "background.js"
